@@ -208,3 +208,78 @@ button:hover {
 .hidden {
   display: none;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .header .logo {
+    height: 36px;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  .filtro {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+  }
+
+  .campo select,
+  .campo input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .botoes {
+    margin-left: 0;
+    flex-direction: column;
+  }
+
+  .botoes button {
+    width: 100%;
+  }
+
+  .grid th,
+  .grid td {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+
+  .chart-container {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.05rem;
+  }
+
+  .header .logo {
+    height: 28px;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px 14px;
+  }
+
+  .grid th,
+  .grid td {
+    padding: 6px;
+    font-size: 0.72rem;
+  }
+
+  #chart-title {
+    font-size: 1rem;
+  }
+}
