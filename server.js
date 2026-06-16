@@ -20,15 +20,20 @@ function loadData() {
   const groups = new Map();
   let maxAnoMes = 0;
 
+  // Parse header dynamically so added/reordered columns don't break the server
+  const header = lines[0].replace(/^﻿/, '').split(';');
+  const idx = {};
+  header.forEach((col, i) => { idx[col.trim()] = i; });
+
   for (let i = 1; i < lines.length; i++) {
     const cols = lines[i].split(';');
-    const grupo = cols[0];
-    const anoMes = parseInt(cols[1], 10);
-    const maiorLance = parseNumber(cols[3]);
-    const menorLance = parseNumber(cols[4]);
-    const tipoBem = cols[6];
-    const prazoGrupo = parseInt(cols[8], 10);
-    const prazoRestante = parseInt(cols[9], 10);
+    const grupo = cols[idx['Grupo']];
+    const anoMes = parseInt(cols[idx['AnoMesContemplacao']], 10);
+    const maiorLance = parseNumber(cols[idx['MaiorLance']]);
+    const menorLance = parseNumber(cols[idx['MenorLance']]);
+    const tipoBem = cols[idx['TipoBem']];
+    const prazoGrupo = parseInt(cols[idx['PrazoGrupo']], 10);
+    const prazoRestante = parseInt(cols[idx['PrazoRestante']], 10);
 
     if (anoMes > maxAnoMes) maxAnoMes = anoMes;
 
@@ -103,13 +108,14 @@ app.post('/api/grupos', (req, res) => {
     if (recentRecords.length === 0) continue;
 
     const menorLanceValues = recentRecords.map((r) => r.menorLance);
+    const maiorLanceValues = recentRecords.map((r) => r.maiorLance);
     const mediana = median(menorLanceValues);
 
     if (mediana === null) continue;
 
     candidates.push({
       grupo: group.grupo,
-      maiorLance: Math.max(...menorLanceValues),
+      maiorLance: Math.max(...maiorLanceValues),
       menorLance: Math.min(...menorLanceValues),
       prazoRestante: group.prazoRestante,
       mediana,
